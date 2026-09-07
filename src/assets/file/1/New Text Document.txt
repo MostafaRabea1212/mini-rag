@@ -1,0 +1,18 @@
+Subject: Request for Cloud GPU Access
+
+Dear Manager 
+
+ I am writing to ask for access to a Cloud GPU.
+
+As an Artificial Intelligence student at Minia National University, I am building deep learning models, but my current computer is not strong enough to run them.
+
+Having this cloud access will help me train my models much faster, so I can finish my AI project on time without any problems.
+
+Could you please let me know how I can get this access?
+
+Thank you for your help.
+
+Best regards,
+
+Mostafa Rabea Shabaan
+AI Student, Minia National University
