@@ -1,10 +1,10 @@
 import os
-from src.controllers.BaseController import BaseContoller
+from src.controllers.BaseController import BaseController
 from fastapi import Path, UploadFile
 from src.models import ResponseSignal
 from .ProjectController import ProjectController
 import re
-class DataContoller(BaseContoller):
+class DataController(BaseController):
     def __init__(self):
         super().__init__()
         self.size_scaled=1048576 # convert MB to bytes
