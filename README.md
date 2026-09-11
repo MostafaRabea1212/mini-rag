@@ -214,7 +214,7 @@ function prompt { "[$env:VIRTUAL_ENV_PROMPT] $((Get-Location).Path)`n> " }
 ### Install the required pachages
 
 ```powershell
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 ### Setup the environment variables
 
