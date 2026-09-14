@@ -41,7 +41,59 @@ class ProcessController(BaseController):
                                     chunk_overlap=chunk_overlap,
                                     length_function=len
                                     )
-
+        """
+file_content
+│
+├── Document #1
+│   │
+│   ├── page_content
+│   │      "النص الموجود في الصفحة الأولى..."
+│   │
+│   └── metadata
+│          {
+│             "source": "...",
+│             "page": 0,
+│             ...
+│          }
+│
+├── Document #2
+│   │
+│   ├── page_content
+│   │      "النص الموجود في الصفحة الثانية..."
+│   │
+│   └── metadata
+│          {
+│             "source": "...",
+│             "page": 1,
+│             ...
+│          }
+│
+├── Document #3
+│   │
+│   ├── page_content
+│   │      "النص الموجود في الصفحة الثالثة..."
+│   │
+│   └── metadata
+│          {
+│             "source": "...",
+│             "page": 2,
+│             ...
+│          }
+│
+├── ...
+│
+└── Document #10
+    │
+    ├── page_content
+    │      "النص الموجود في الصفحة العاشرة..."
+    │
+    └── metadata
+           {
+              "source": "...",
+              "page": 9,
+              ...
+           }
+"""
         file_content_text=[
             rec.page_content
             for rec in file_content
@@ -54,5 +106,22 @@ class ProcessController(BaseController):
 
         chunks = text_splitter.create_documents(file_content_text, metadatas=file_content_metadata)
         return chunks
+
+"""
+After text_splitter.create_documents
+chunks
+│
+├── Document
+│   ├── page_content = "ABCDEFGHIJ"
+│   └── metadata = {...}
+│
+├── Document
+│   ├── page_content = "IJKLMNOPQR"
+│   └── metadata = {...}
+│
+└── Document
+    ├── page_content = "QRSTUVWXYZ"
+    └── metadata = {...}
+"""
 
 
