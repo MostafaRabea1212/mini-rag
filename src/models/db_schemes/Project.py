@@ -3,7 +3,7 @@ from typing import Optional
 from bson import ObjectId
 
 class Project(BaseModel):
-    id : Optional[ObjectId]= Field (None , alias="_id")
+    id : Optional[ObjectId] = Field(None , alias="_id")
     project_id :str = Field(...,min_length=1)
 
     @validator('project_id')
@@ -14,3 +14,19 @@ class Project(BaseModel):
         return value
     class Config:
         arbitrary_types_allowed = True
+
+    @classmethod
+    def get_indexing(cls):
+
+        return [
+            {
+                "key": [("project_id",1)
+
+                        ],
+                "name": "project_id_index_i",
+                "unique" : True
+            }
+             
+        ]
+
+    
