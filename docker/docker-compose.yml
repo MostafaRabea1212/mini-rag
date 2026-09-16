@@ -5,11 +5,21 @@ services:
     ports:
       - "27007:27017"
     volumes:
-      - ./mongodb:/data/db
+      - mongoddata:/data/db
+      
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     networks:
       - backend
     restart: always
 
 networks:
   backend:
-
+volumes:
+  mongoddata:
+#docker stop $(docker ps -q)
+#docker rm $(docker ps -aq)
+#docker rmi $(docker images -q)
+#docker volume rm $(docker volume ls -q)
+#docker system prune --all

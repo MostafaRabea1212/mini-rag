@@ -227,6 +227,25 @@ Set your environment variables in the `.env` file. Like `OPENAI_API_KEY` value.
 ```PowerShell
 uvicorn main:app --reload --host 0.0.0.0 --port 5000
 ```
+
+## Run Docker Compose Services
+
+```bash
+cd docker
+cp .env.example .env
+```
+
+Update the `.env` file with your credentials.
+
+```bash
+cd docker
+sudo docker compose up -d
+```
+
+- Update .env with your credentials
+
 ## POSTMAN Collection
 
 Download the POSTMAN collection from [/assets/mini-rag-app.postman_collection.json](/assets/mini-rag-app.postman_collection.json)
+
+
