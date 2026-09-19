@@ -10,3 +10,5 @@ pymupdf==1.28.0
 langchain-text-splitters==1.1.2
 motor==3.7.1
 openai==3.15.0
+cohere==7.1.1
+groq==1.7.0
