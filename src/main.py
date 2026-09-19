@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from src.routes import base , data
 from motor.motor_asyncio import AsyncIOMotorClient
 from src.helper.config import get_settings
-from src.stores.LLMProviderFactory import LLMProviderFactory
+from stores.llm.LLMProviderFactory import LLMProviderFactory
 
 app = FastAPI()
 
