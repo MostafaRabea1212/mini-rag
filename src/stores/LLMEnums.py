@@ -4,9 +4,24 @@ class LLMEnums(Enum):
     
     OPENAI = "OPENAI"
     COHERE = "COHERE"
-
+    GROQ   = "GROQ"
 class OpenAIEnums(Enum):
     
     SYSTEM = "system"
     USER   = "user"
     ASSISTANT ="assistant"
+class GroqEnums(Enum):
+    
+    SYSTEM = "system"
+    USER   = "user"
+    ASSISTANT ="assistant"
+class CoHereEnums(Enum):
+    SYSTEM = "system"
+    USER   = "user"
+    ASSISTANT ="assistant"
+
+    DCUMENT  = "search_document"
+    QUERY    = "search_query "
+class DocumentTypeEnum(Enum):
+    DCUMENT = "document"
+    QUERY   =  "query"  
