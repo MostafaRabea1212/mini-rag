@@ -1,6 +1,6 @@
-from src.stores.LLMInterface import LLMInterface
+from stores.llm.LLMInterface import LLMInterface
 import logging
-from src.stores.LLMEnums import CoHereEnums ,DocumentTypeEnum
+from stores.llm.LLMEnums import CoHereEnums ,DocumentTypeEnum
 import cohere
 
 class CoHereProvider(LLMInterface):
