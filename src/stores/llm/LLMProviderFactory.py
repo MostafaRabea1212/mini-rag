@@ -1,4 +1,4 @@
-from src.stores.LLMEnums import LLMEnums
+from src.stores.llm.LLMEnums import LLMEnums
 from src.stores.llm.Providers import OpenAIProvider , GroqProvider , CohereProvider
 
 class LLMProviderFactory:
