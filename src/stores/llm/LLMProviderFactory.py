@@ -1,5 +1,5 @@
 from src.stores.llm.LLMEnums import LLMEnums
-from src.stores.llm.Providers import OpenAIProvider , GroqProvider , CohereProvider
+from src.stores.llm.Providers import OpenAIProvider , GroqProvider , CoHereProvider
 
 class LLMProviderFactory:
 
@@ -27,7 +27,7 @@ class LLMProviderFactory:
                 
             )
         if provider == LLMEnums.COHERE.value:
-            return CohereProvider (
+            return CoHereProvider (
                 api_key = self.config.COHERE_API_KEY,
 
                 default_input_max_characters=self.config.INPUT_DAFAULT_MAX_CHARACTERS,
