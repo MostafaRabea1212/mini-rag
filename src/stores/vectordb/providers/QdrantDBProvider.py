@@ -6,8 +6,7 @@ from qdrant_client import  models , QdrantClient
 
 class QdrandDBProvider(VectorDBInterface):
     def __init__(self ,db_path : str ,
-                 distance_method : str ,
-                 collection_name  : str,
+                 distance_method : str 
                                         ):
         self.client=None
         self.db_path=db_path
@@ -28,18 +27,19 @@ class QdrandDBProvider(VectorDBInterface):
         self.client =None
 
     def is_collection_existed(self , collection_name  : str) -> bool:
-        return self.client.collection_exists(collection_name="{collection_name}")
+        return self.client.collection_exists(collection_name=collection_name)
 
     def list_all_collections(self)-> List:
        return self.client.get_collections()
 
     def get_collection_info(self , collection_name : str) -> dict:
-        return self.client.get_collection(collection_name="{collection_name}")
+        return self.client.get_collection(collection_name=collection_name)
 
     def delete_collection(self , collection_name : str):
         if self.is_collection_existed(collection_name):
-            self.client.delete_collection(collection_name="{collection_name}")
-        self.logger.error(f"the colelction {collection_name} not found")
+            self.client.delete_collection(collection_name=collection_name)
+        else:
+            self.logger.error(f"the colelction {collection_name} not found")
 
     def create_collection(self, collection_name, 
                           embedding_size, do_reset = False):
@@ -49,7 +49,7 @@ class QdrandDBProvider(VectorDBInterface):
         if not self.is_collection_existed(collection_name):
 
             _ =self.client.create_collection(
-            collection_name="{collection_name}",
+            collection_name=collection_name,
                             vectors_config=models.VectorParams(size=embedding_size, distance=self.distance_method),)
 
             return True
@@ -69,6 +69,7 @@ class QdrandDBProvider(VectorDBInterface):
                 collection_name=collection_name,
                 points= [
                     models.PointStruct(
+                        id =points_id,
                         vector = vector,
                         payload = {
                             "text" : text,
@@ -79,7 +80,7 @@ class QdrandDBProvider(VectorDBInterface):
                             )
         except Exception as e:
             self.logger.error(f"Error While inserting batch : {e}")
-
+            return False
         return True 
     def insert_many(self , collection_name  :str, 
                         texts : list ,vector :list , 
@@ -97,10 +98,12 @@ class QdrandDBProvider(VectorDBInterface):
             batch_texts = texts[i : i+batch_size]
             batch_vector =vector[i : i+batch_size]
             batch_metadata= metadata[i : i+batch_size]
+            batch_points_ids = points_id[i:i + batch_size]
 
             batch_points=[
 
                 models.PointStruct(
+                    id =batch_points_ids[x],
                     vector = batch_vector[x],
                     payload = {
                         "text" : batch_texts[x],
@@ -117,6 +120,8 @@ class QdrandDBProvider(VectorDBInterface):
                 )
             except Exception as e:
                 self.logger.error(f"Error While inserting batch : {e}")
+
+                return False
 
         return True
     
