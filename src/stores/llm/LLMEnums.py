@@ -21,7 +21,7 @@ class CoHereEnums(Enum):
     ASSISTANT ="assistant"
 
     DCUMENT  = "search_document"
-    QUERY    = "search_query "
+    QUERY    = "search_query"
 class DocumentTypeEnum(Enum):
     DCUMENT = "document"
     QUERY   =  "query"  
