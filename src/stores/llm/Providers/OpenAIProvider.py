@@ -24,6 +24,7 @@ class OpenAIProvider(LLMInterface):
             api_key=self.api_key,
             api_url=self.api_url
         )
+        self.enums=OpenAIEnums
         self.logger=logging.getLogger(__name__)
 
     def set_generation_model(self, model_id :str):
@@ -68,7 +69,7 @@ class OpenAIProvider(LLMInterface):
             self.logger.error("Error while generating text with OpenAI")
             return None
 
-        return  response.choices[0].message["content"]
+        return  response.choices[0].message.content
 
 
 

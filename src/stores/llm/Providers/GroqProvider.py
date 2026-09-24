@@ -5,8 +5,8 @@ from src.stores.llm.LLMEnums import GroqEnums
 
 class GroqProvider(LLMInterface):
     def __init__(self, api_key : str , api_url : str =None,
-                    default_input_max_characters : int = 1000,
-                    default_generation_max_output_tokens : int = 1000,
+                    default_input_max_characters : int = 3000,
+                    default_generation_max_output_tokens : int = 3000,
                     default_generation_temperature : float = 0.1 ):
         
         self.api_key=api_key
@@ -22,6 +22,7 @@ class GroqProvider(LLMInterface):
         self.client=Groq(
             api_key=self.api_key,
         )
+        self.enums=GroqEnums
         self.logger=logging.getLogger(__name__)
 
     def set_generation_model(self, model_id :str):
@@ -55,18 +56,21 @@ class GroqProvider(LLMInterface):
             self.construct_prompt(prompt=prompt ,
                                    role= GroqEnums.USER.value)
                                    )
-
-        response= self.client.chat.completions.create(
-            model=self.generation_model_id, 
-            messages=chat_history,
-            max_completion_tokens=max_output_token,
-            temperature=temperature
-            )
-        if not response or not response.choices or len(response.choices) == 0 or response.choices[0].message:
-            self.logger.error("Error while generating text with OpenAI")
+        try :
+            response= self.client.chat.completions.create(
+                model=self.generation_model_id, 
+                messages=chat_history,
+                max_completion_tokens=max_output_token,
+                temperature=temperature
+                )
+        except Exception as e:
+            self.logger.error(f"Groq generation error: {e}")
+            raise
+        if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:
+            self.logger.error("Error while generating text with Qroq")
             return None
 
-        return  response.choices[0].message["content"]
+        return  response.choices[0].message.content
 
 
 
@@ -85,7 +89,7 @@ class GroqProvider(LLMInterface):
             input = text
             )
         
-        if not response or not response.data or len(response.data) == 0 or response.data[0].embedding:
+        if not response or not response.data or len(response.data) == 0 or not response.data[0].embedding:
             self.logger.error("Error while embedding text with OpenAI")
             return None
         
