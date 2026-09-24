@@ -21,6 +21,7 @@ class ProcessController(BaseController):
         file_ext=self.get_file_extention(file_id=file_id)
         file_path=os.path.join(self.project_path,file_id)
 
+        
         if not os.path.exists(file_path):
             return None
 
@@ -41,7 +42,7 @@ class ProcessController(BaseController):
 
         return None
     
-    def process_file_content(self,file_id : str , file_content: list,chunk_size:int=1000,chunk_overlap:int=40):
+    def process_file_content(self,file_id : str , file_content: list,chunk_size:int=400,chunk_overlap:int=40):
         text_splitter=RecursiveCharacterTextSplitter(
                                     chunk_size=chunk_size,
                                     chunk_overlap=chunk_overlap,
