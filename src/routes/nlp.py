@@ -43,7 +43,8 @@ async def index_project(request :Request ,
 
     nlpcontroller=NlpController(vectordb_client=request.app.vectordb_client,
                                 generation_client=request.app.generation_client,
-                                embedding_client=request.app.embedding_client)
+                                embedding_client=request.app.embedding_client
+                                ,template_parser =request.app.template_parser )
     has_record = True
     page_no = 1
     inserted_item_count = 0
@@ -94,7 +95,8 @@ async def get_proejct_index_info(request : Request , project_id :str):
     nlpcontroller=NlpController(
                 vectordb_client=request.app.vectordb_client,
                 generation_client=request.app.generation_client,
-                embedding_client=request.app.embedding_client)
+                embedding_client=request.app.embedding_client,
+                template_parser=request.app.template_parser)
     
     collection_info=nlpcontroller.get_vector_db_collection_info(project=project)
 
@@ -119,11 +121,12 @@ async def search_index(request : Request , project_id : str ,search_request :Sea
     nlpcontroller=NlpController(
                 vectordb_client=request.app.vectordb_client,
                 generation_client=request.app.generation_client,
-                embedding_client=request.app.embedding_client)
-    reuslts= nlpcontroller.search_vector_db_collection(text = search_request.text ,
+                embedding_client=request.app.embedding_client,
+                template_parser=request.app.template_parser,)
+    results= nlpcontroller.search_vector_db_collection(text = search_request.text ,
                                                        project= project,
                                                        limit=search_request.limit)
-    if not reuslts:
+    if not results:
         return JSONResponse(
             content ={
                 "signal" : ResponseSignal.VECTORDB_SEARCH_ERROR.value           }
@@ -132,8 +135,44 @@ async def search_index(request : Request , project_id : str ,search_request :Sea
     return JSONResponse(
         content ={
             "signal" : ResponseSignal.VECTORDB_SEARCH_SUCCESS.value,
-            "results" : reuslts
+            "results" : [
+                   result.dict() 
+                for result in results
+                ]
         }
     )
 
+@nlp_router.post("/index/answer/{project_id}")
+async def answer_rag(request : Request , project_id : str ,search_request :SearchRequest):
 
+    projectmodel=await ProjectModel.create_instance(
+        db_client=request.app.db_client
+        )
+    
+    project= await projectmodel.get_project_or_create_one(
+        project_id=project_id
+        )
+
+    nlpcontroller=NlpController(
+                vectordb_client=request.app.vectordb_client,
+                generation_client=request.app.generation_client,
+                embedding_client=request.app.embedding_client,
+                template_parser=request.app.template_parser,)
+    answer ,full_prompt ,chat_history=nlpcontroller.answer_rag_question(project = project ,
+                                                                        query= search_request.text,
+                                                                        limit=search_request.limit)
+    if not answer:
+        return JSONResponse(
+            status_code =status.HTTP_400_BAD_REQUEST,
+            content= {
+            "signal" : ResponseSignal.RAG_ANSWER_ERROR.value 
+            }
+        )
+    return JSONResponse(
+            content= {
+            "signal" : ResponseSignal.RAG_ANSWER_SUCCES.value ,
+            "answer" : answer,
+            "full_prompt" : full_prompt,
+            "chat_history" : chat_history
+            }
+        )
