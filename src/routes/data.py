@@ -102,7 +102,6 @@ async def process_endpoint(project_id : str , process_request : ProcessRequest,r
                 status_code=status.HTTP_400_BAD_REQUEST,
                 content={
                     "signal":ResponseSignal.FILE_ID_ERROR.value,
-                    "inserted_chunks" : no_record
                 }
                 )
         
@@ -143,7 +142,7 @@ async def process_endpoint(project_id : str , process_request : ProcessRequest,r
 
         if file_content is None:
             logger.error(f"Error while processing file{file_id}")
-
+            continue
         file_chunks=process_controller.process_file_content(
             file_content=file_content,
             file_id=file_id,
