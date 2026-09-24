@@ -1,5 +1,5 @@
 from src.stores.llm.LLMEnums import LLMEnums
-from src.stores.llm.Providers import OpenAIProvider , GroqProvider , CoHereProvider
+from src.stores.llm.Providers import OpenAIProvider , GroqProvider , CoHereProvider ,LLMLocalProvider
 
 class LLMProviderFactory:
 
@@ -35,4 +35,12 @@ class LLMProviderFactory:
                 default_generation_temperature=self.config.GENERATION_DAFAULT_TEMPERATURE
                 
             ) 
-        return None 
+        if provider == LLMEnums.LOCAL.value:
+            return LLMLocalProvider(
+                api_key=None,  # مفيش API key هنا، الموديلات بتتحمل محليًا
+
+                default_input_max_characters=self.config.INPUT_DAFAULT_MAX_CHARACTERS,
+                default_generation_max_output_tokens=self.config.GENERATION_DAFAULT_MAX_TOKENS,
+                default_generation_temperature=self.config.GENERATION_DAFAULT_TEMPERATURE
+            )
+        return None

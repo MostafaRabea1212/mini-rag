@@ -5,6 +5,7 @@ class LLMEnums(Enum):
     OPENAI = "OPENAI"
     COHERE = "COHERE"
     GROQ   = "GROQ"
+    LOCAL  = "LOCAL"
 class OpenAIEnums(Enum):
     
     SYSTEM = "system"
@@ -24,4 +25,10 @@ class CoHereEnums(Enum):
     QUERY    = "search_query"
 class DocumentTypeEnum(Enum):
     DCUMENT = "document"
-    QUERY   =  "query"  
+    QUERY   =  "query"
+
+class LocalLLMEnums(Enum):
+    SYSTEM = "system"
+    USER = "user"
+    ASSISTANT = "assistant"
+    
