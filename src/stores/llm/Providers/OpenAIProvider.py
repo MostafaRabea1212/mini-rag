@@ -22,7 +22,7 @@ class OpenAIProvider(LLMInterface):
 
         self.client=OpenAI(
             api_key=self.api_key,
-            api_url=self.api_url
+            base_url=self.api_url if  self.api_url and len(self.api_url) else None
         )
         self.enums=OpenAIEnums
         self.logger=logging.getLogger(__name__)
@@ -65,7 +65,7 @@ class OpenAIProvider(LLMInterface):
             max_tokens=max_output_token,
             temperature=temperature
             )
-        if not response or not response.choices or len(response.choices) == 0 or response.choices[0].message:
+        if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:
             self.logger.error("Error while generating text with OpenAI")
             return None
 
@@ -88,7 +88,7 @@ class OpenAIProvider(LLMInterface):
             input = text
             )
         
-        if not response or not response.data or len(response.data) == 0 or response.data[0].embedding:
+        if not response or not response.data or len(response.data) == 0 or not response.data[0].embedding:
             self.logger.error("Error while embedding text with OpenAI")
             return None
         
