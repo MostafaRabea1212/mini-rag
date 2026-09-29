@@ -130,7 +130,7 @@ class LLMLocalProvider(LLMInterface):
 
     def embed_text(self, text: str, document_type: str = None):
 
-        if not self.embedding_model:
+        if self.embedding_model is None:
             self.logger.error("Local embedding model was not set")
             return None
 
