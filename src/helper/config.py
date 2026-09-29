@@ -1,0 +1,42 @@
+from pydantic_settings import BaseSettings , SettingsConfigDict
+
+class Settings(BaseSettings):
+
+    APP_NAME : str
+    APP_VERSION : str
+    OPENAI_API_KEY : str
+    FILE_ALLOWED_TYPES : list
+    FILE_MAX_SIZE : int
+    FILE_DEFAULT_CHUNK_SIZE : int
+    
+    MONGODB_URI : str
+    MONGODB_DATABASE : str
+
+    GENERATION_BACKEND: str
+    EMBEDDING_BACKEND: str
+    
+    GROQ_API_KEY: str = None
+    GROQ_API_URL : str = None
+    OPENAI_API_KEY: str = None
+    OPENAI_API_URL: str = None
+    COHERE_API_KEY: str = None
+
+    GENERATION_MODEL_ID: str = None
+    EMBEDDING_MODEL_ID: str = None
+    EMBEDDING_MODEL_SIZE: int = None
+    INPUT_DAFAULT_MAX_CHARACTERS: int = None
+    GENERATION_DAFAULT_MAX_TOKENS: int = None
+    GENERATION_DAFAULT_TEMPERATURE: float = None
+
+    VECTOR_DB_BACKEND : str
+    VECTOR_DB_PATH : str 
+    VECTOR_DB_DISTANCE_METHOD : str = None
+
+    DEFAULT_LANG  : str 
+    PRIMARY_LANG  :str
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore"
+    )
+def get_settings():
+    return Settings()
