@@ -18,9 +18,11 @@ class GroqProvider(LLMInterface):
         self.generation_model_id = None
         self.embedding_model_id = None
         self.embedding_size = None
-
+        self.api_url=api_url
+        
         self.client=Groq(
             api_key=self.api_key,
+            base_url=self.api_url if  self.api_url and len(self.api_url) else None
         )
         self.enums=GroqEnums
         self.logger=logging.getLogger(__name__)
